@@ -1,7 +1,8 @@
-package com.example.testcoco
+package com.example.testcoco.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.testcoco.R
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {

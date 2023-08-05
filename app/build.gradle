@@ -47,4 +47,8 @@ dependencies {
 
     // splash
     implementation 'androidx.core:core-splashscreen:1.0.1'
+
+    //navigation
+    implementation 'androidx.navigation:navigation-common-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
 }
