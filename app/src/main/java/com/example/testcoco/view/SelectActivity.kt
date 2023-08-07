@@ -2,16 +2,18 @@ package com.example.testcoco.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.testcoco.R
-import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class SelectActivity : AppCompatActivity() {
+
+    private val viewModel : SelectViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_select)
 
-        Timber.d("onCreate")
-
+        viewModel.getCurrentCoinList()
 
     }
 }
