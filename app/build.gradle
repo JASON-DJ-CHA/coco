@@ -63,4 +63,10 @@ dependencies {
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+
+    //DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:3.4.0"
 }

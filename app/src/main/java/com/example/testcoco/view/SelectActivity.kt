@@ -1,10 +1,12 @@
 package com.example.testcoco.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testcoco.MainActivity
 import com.example.testcoco.R
 import com.example.testcoco.databinding.ActivitySelectBinding
 import com.example.testcoco.view.adapter.SelectRVAdapter
@@ -35,5 +37,11 @@ class SelectActivity : AppCompatActivity() {
             Timber.d(it.toString())
         })
 
+        viewModel.setUpFirstFlag()
+
+        binding.laterTextArea.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
