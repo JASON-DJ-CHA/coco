@@ -9,6 +9,7 @@ import com.example.testcoco.dataModel.CurrentPriceResult
 import com.example.testcoco.dataStore.MyDataStore
 import com.example.testcoco.repository.NetWorkRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -55,6 +56,19 @@ class SelectViewModel : ViewModel() {
 
     fun setUpFirstFlag() = viewModelScope.launch {
         MyDataStore().setupFirestData()
+    }
+
+    //DB에 데이터 저장
+    fun savaSelectedCoinList() = viewModelScope.launch (Dispatchers.IO){
+
+        // 1. 전체 코인 데이터를 가져와서
+        for(coin in currentPriceResultList){
+
+        }
+        // 2. 내가 선택한 코인인지 아닌지 구분해서
+
+        // 3. 저장
+
     }
 
 }
