@@ -15,6 +15,7 @@ import kotlinx.coroutines.selects.select
 class SelectRVAdapter(val context: Context, val coinPriceList : List<CurrentPriceResult>)
     :RecyclerView.Adapter<SelectRVAdapter.ViewHolder>(){
 
+    // 내가 선택한 코인을 저장함
     val selectedCoinList = ArrayList<String>()
 
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view){

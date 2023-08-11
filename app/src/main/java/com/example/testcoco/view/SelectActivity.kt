@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testcoco.MainActivity
-import com.example.testcoco.R
 import com.example.testcoco.databinding.ActivitySelectBinding
 import com.example.testcoco.view.adapter.SelectRVAdapter
 import timber.log.Timber
@@ -40,9 +39,19 @@ class SelectActivity : AppCompatActivity() {
 
         binding.laterTextArea.setOnClickListener{
             viewModel.setUpFirstFlag()
+            viewModel.savaSelectedCoinList(selectRVAdapter.selectedCoinList)
 
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
+
+        viewModel.save.observe(this, Observer {
+            if(it.equals("done")){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+
+        })
+
     }
 }
