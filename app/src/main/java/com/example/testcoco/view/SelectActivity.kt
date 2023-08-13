@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testcoco.MainActivity
+import com.example.testcoco.view.main.MainActivity
 import com.example.testcoco.databinding.ActivitySelectBinding
 import com.example.testcoco.view.adapter.SelectRVAdapter
 import timber.log.Timber
