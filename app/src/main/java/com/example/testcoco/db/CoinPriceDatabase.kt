@@ -4,13 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.example.testcoco.db.dao.InterestCoinDAO
+import com.example.testcoco.db.dao.SelectedCoinPriceDAO
+import com.example.testcoco.db.entity.DateConverters
 import com.example.testcoco.db.entity.InterestCoinEntity
+import com.example.testcoco.db.entity.SelectedCoinPriceEntity
 
-@Database(entities = [InterestCoinEntity::class], version = 1)
+@Database(entities = [InterestCoinEntity::class, SelectedCoinPriceEntity::class], version = 2)
+@TypeConverters(DateConverters::class)
 abstract class CoinPriceDatabase  : RoomDatabase() {
     // 데이터 베이스 셋팅
     abstract fun interestCoinDAO() : InterestCoinDAO
+    abstract fun selectedCoinDAO() : SelectedCoinPriceDAO
 
     companion object{
 
