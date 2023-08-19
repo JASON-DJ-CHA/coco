@@ -1,11 +1,13 @@
 package com.example.testcoco.view.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.testcoco.R
 import com.example.testcoco.databinding.ActivityMainBinding
+import com.example.testcoco.view.setting.SettingActivity
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        binding.setting.setOnClickListener{
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
 
         val bottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.fragmentContainerView)

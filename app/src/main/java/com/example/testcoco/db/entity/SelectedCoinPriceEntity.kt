@@ -21,7 +21,7 @@ data class SelectedCoinPriceEntity(
 
 class DateConverters{
     @TypeConverter
-    fun fromTimestamp(value: Long) : Date{
+    fun fromTimestamp(value : Long) : Date {
         return Date(value)
     }
 

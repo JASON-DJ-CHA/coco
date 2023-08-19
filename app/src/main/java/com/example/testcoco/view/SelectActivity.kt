@@ -56,6 +56,7 @@ class SelectActivity : AppCompatActivity() {
                 startActivity(intent)
 
                 // 가장 처음으로 우리가 저장한 코인의 정보가 저장되는 시점
+                saveInterestCoinDataPeriodic()
 
 
             }
