@@ -38,7 +38,6 @@ class SelectViewModel : ViewModel() {
 
         currentPriceResultList = ArrayList()
 
-
         for(coin in result.data){
 
 
