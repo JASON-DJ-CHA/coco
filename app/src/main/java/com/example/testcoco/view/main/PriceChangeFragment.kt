@@ -30,7 +30,7 @@ class PriceChangeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentPriceChangeBinding.inflate(inflater,container,false)
+        _binding = FragmentPriceChangeBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }

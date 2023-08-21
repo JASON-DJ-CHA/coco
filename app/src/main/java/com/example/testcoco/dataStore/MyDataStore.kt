@@ -27,7 +27,7 @@ class MyDataStore {
     // 처음 접속하는 유저면 False
 
 
-    suspend fun setupFirestData(){
+    suspend fun setupFirstData(){
         mDataStore.edit { preferences ->
         preferences[FIRST_FLAG] = true
         }

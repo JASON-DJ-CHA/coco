@@ -19,14 +19,14 @@ import timber.log.Timber
 class SelectViewModel : ViewModel() {
 
     private val netWorkRepository = NetWorkRepository()
-    private val dbRepository  = DBRepository()
+    private val dbRepository = DBRepository()
 
-    private lateinit var currentPriceResultList: ArrayList<CurrentPriceResult>
+    private lateinit var currentPriceResultList : ArrayList<CurrentPriceResult>
 
-    // 데이터 변화를 관찰 LiveData
-    private val _currentPreceResult = MutableLiveData<List<CurrentPriceResult>>()
+    // 데이터변화를 관찰 LiveData
+    private val _currentPriceResult = MutableLiveData<List<CurrentPriceResult>>()
     val currentPriceResult : LiveData<List<CurrentPriceResult>>
-        get() = _currentPreceResult
+        get() = _currentPriceResult
 
     private val _saved = MutableLiveData<String>()
     val save : LiveData<String>
@@ -38,8 +38,7 @@ class SelectViewModel : ViewModel() {
 
         currentPriceResultList = ArrayList()
 
-        for(coin in result.data){
-
+        for(coin in result.data) {
 
             try {
                 val gson = Gson()
@@ -49,31 +48,32 @@ class SelectViewModel : ViewModel() {
                 val currentPriceResult = CurrentPriceResult(coin.key, gsonFromJson)
 
                 currentPriceResultList.add(currentPriceResult)
-            }catch (e : java.lang.Exception){
-                Timber.d(e.toString())
 
+            }catch (e : java.lang.Exception) {
+                Timber.d(e.toString())
             }
+
         }
 
-        _currentPreceResult.value = currentPriceResultList
-
+        _currentPriceResult.value = currentPriceResultList
 
     }
 
     fun setUpFirstFlag() = viewModelScope.launch {
-        MyDataStore().setupFirestData()
+        MyDataStore().setupFirstData()
     }
 
-    //DB에 데이터 저장
-    fun savaSelectedCoinList(selectedCoinList: ArrayList<String>) = viewModelScope.launch (Dispatchers.IO){
+    // DB에 데이터 저장
+    // https://developer.android.com/kotlin/coroutines/coroutines-adv?hl=ko
+    fun saveSelectedCoinList(selectedCoinList: ArrayList<String>) = viewModelScope.launch (Dispatchers.IO){
 
-        // 1. 전체 코인 데이터를 가져와서
-        for(coin in currentPriceResultList){
+        // 1. 전체 코인 데이터를 가져와서 -> OK
+        for(coin in currentPriceResultList) {
 
             Timber.d(coin.toString())
-            // 2. 내가 선택한 코인인지 아닌지 구분해서
 
-            //포함하면 true, 포함하지 않으면 false
+            // 2. 내가 선택한 코인인지 아닌지 구분해서
+            // 포함하면 TRUE / 포함하지 않으면 FALSE
             val selected = selectedCoinList.contains(coin.coinName)
 
             val interestCoinEntity = InterestCoinEntity(
@@ -92,8 +92,8 @@ class SelectViewModel : ViewModel() {
                 coin.coinInfo.fluctate_rate_24H,
                 selected
             )
-            // 3. 저장
 
+            // 3. 저장
             interestCoinEntity.let {
                 dbRepository.insertInterestcoinData(it)
             }
@@ -102,8 +102,10 @@ class SelectViewModel : ViewModel() {
 
         withContext(Dispatchers.Main){
             _saved.value = "done"
-
         }
+
+
+
 
     }
 

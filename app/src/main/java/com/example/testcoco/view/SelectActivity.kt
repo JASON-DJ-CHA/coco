@@ -9,23 +9,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.testcoco.background.GetCoinPriceRecentConTractedWorkManager
+import com.example.testcoco.background.GetCoinPriceRecentContractedWorkManager
 import com.example.testcoco.view.main.MainActivity
 import com.example.testcoco.databinding.ActivitySelectBinding
 import com.example.testcoco.view.adapter.SelectRVAdapter
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-
 class SelectActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySelectBinding
+    private lateinit var binding : ActivitySelectBinding
 
     private val viewModel : SelectViewModel by viewModels()
+    // FAQ
 
     private lateinit var selectRVAdapter: SelectRVAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivitySelectBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,41 +41,43 @@ class SelectActivity : AppCompatActivity() {
             Timber.d(it.toString())
         })
 
+        binding.laterTextArea.setOnClickListener {
 
-        binding.laterTextArea.setOnClickListener{
             viewModel.setUpFirstFlag()
-            viewModel.savaSelectedCoinList(selectRVAdapter.selectedCoinList)
+            viewModel.saveSelectedCoinList(selectRVAdapter.selectedCoinList)
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+
+
         }
 
         viewModel.save.observe(this, Observer {
-            if(it.equals("done")){
+            if(it.equals("done")) {
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
 
-                // 가장 처음으로 우리가 저장한 코인의 정보가 저장되는 시점
+                // 가장 처음으로 우리가 저장한 코인 정보가 저장되는 시점
                 saveInterestCoinDataPeriodic()
 
-
             }
-
         })
+
     }
 
     private fun saveInterestCoinDataPeriodic() {
+
         val myWork = PeriodicWorkRequest.Builder(
-            GetCoinPriceRecentConTractedWorkManager::class.java,
+            GetCoinPriceRecentContractedWorkManager::class.java,
             15,
             TimeUnit.MINUTES
         ).build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "GetCoinPriceRecentConTractedWorkManager",
+            "GetCoinPriceRecentContractedWorkManager",
             ExistingPeriodicWorkPolicy.KEEP,
             myWork
         )
+
     }
 
 }

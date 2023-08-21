@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.testcoco.databinding.ActivitySettingBinding
-import com.example.testcoco.network.service.PriceForegroundService
+import com.example.testcoco.service.PriceForegroundService
 
 class SettingActivity : AppCompatActivity() {
 
@@ -16,6 +16,7 @@ class SettingActivity : AppCompatActivity() {
         binding = ActivitySettingBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
 
         binding.startForeground.setOnClickListener {
 
@@ -37,6 +38,7 @@ class SettingActivity : AppCompatActivity() {
 
 
         }
+
 
     }
 }

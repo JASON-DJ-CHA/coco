@@ -26,10 +26,10 @@ class DBRepository {
     fun getAllInterestSelectedCoinData() = db.interestCoinDAO().getSelectedData()
 
     // coinPrice
-    fun getAllCoinPriceData() = db.selectedCoinDAO().getAllDate()
+    fun getAllCoinPriceData() = db.selectedCoinDAO().getAllData()
 
     fun insertCoinPriceData(selectedCoinPriceEntity: SelectedCoinPriceEntity) = db.selectedCoinDAO().insert(selectedCoinPriceEntity)
 
-    fun getOneSelectedCoinData(coinName : String) = db.selectedCoinDAO().getOneCoinDate(coinName)
+    fun getOneSelectedCoinData(coinName : String) = db.selectedCoinDAO().getOneCoinData(coinName)
 
 }

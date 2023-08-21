@@ -1,4 +1,4 @@
-package com.example.testcoco.network.service
+package com.example.testcoco.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,23 +13,18 @@ import androidx.core.app.NotificationCompat
 import com.example.testcoco.R
 import com.example.testcoco.dataModel.CurrentPrice
 import com.example.testcoco.dataModel.CurrentPriceResult
-import com.example.testcoco.databinding.ActivitySelectBinding
 import com.example.testcoco.repository.NetWorkRepository
 import com.example.testcoco.view.main.MainActivity
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
-import java.util.Random
-
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PriceForegroundService : Service() {
 
-    private val netWorkRepository = NetWorkRepository()
 
+    private val netWorkRepository = NetWorkRepository()
 
     private val NOTIFICATION_ID = 10000
 
@@ -41,52 +36,61 @@ class PriceForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        when(intent?.action){
+        when(intent?.action) {
+
             "START" -> {
 
                 job = CoroutineScope(Dispatchers.Default).launch {
-                    Timber.d("START")
-                    startForeground(NOTIFICATION_ID, makeNotification())
-                    delay(3000)
+
+                    while (true) {
+                        Timber.d("START")
+                        startForeground(NOTIFICATION_ID, makeNotification())
+
+                        delay(3000)
+                    }
+
                 }
 
 
             }
+
             "STOP" -> {
                 Timber.d("STOP")
+
                 try {
                     job.cancel()
                     stopForeground(true)
                     stopSelf()
-                }catch (e : java.lang.Exception){
+                } catch (e : java.lang.Exception) {
 
                 }
 
             }
+
         }
 
         return START_STICKY
+
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-
+    override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
 
-     suspend fun makeNotification() : Notification{
+    suspend fun makeNotification() : Notification {
 
+        val result = getAllCoinList()
 
-         val result = getAllCoinList()
+        val randomNum = Random().nextInt(result.size)
 
-         val randomNum = Random().nextInt(result.size)
-
-         val title = result[randomNum].coinName
-         val content = result[randomNum].coinInfo
+        val title = result[randomNum].coinName
+        val content = result[randomNum].coinInfo.fluctate_24H
 
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+
         val pendingIntent : PendingIntent = PendingIntent.getActivity(
             this,
             0,
@@ -102,7 +106,8 @@ class PriceForegroundService : Service() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             val name = "name"
             val descriptionText = "descriptionText"
             val importance = NotificationManager.IMPORTANCE_LOW
@@ -112,17 +117,21 @@ class PriceForegroundService : Service() {
 
             val notificationManager : NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+
         }
+
         return builder.build()
+
+
     }
 
-    suspend fun getAllCoinList() : ArrayList<CurrentPriceResult>{
+    suspend fun getAllCoinList() : ArrayList<CurrentPriceResult> {
+
         val result = netWorkRepository.getCurrentCoinList()
 
         val currentPriceResultList = ArrayList<CurrentPriceResult>()
 
-        for(coin in result.data){
-
+        for(coin in result.data) {
 
             try {
                 val gson = Gson()
@@ -132,13 +141,15 @@ class PriceForegroundService : Service() {
                 val currentPriceResult = CurrentPriceResult(coin.key, gsonFromJson)
 
                 currentPriceResultList.add(currentPriceResult)
-            }catch (e : java.lang.Exception){
+
+            }catch (e : java.lang.Exception) {
                 Timber.d(e.toString())
-
             }
-        }
-        return currentPriceResultList
-    }
 
+        }
+
+        return currentPriceResultList
+
+    }
 
 }

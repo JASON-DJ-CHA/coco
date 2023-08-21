@@ -11,7 +11,7 @@ interface SelectedCoinPriceDAO {
 
     //getAllData
     @Query("SELECT * FROM selected_coin_price_table")
-    fun getAllDate() : List<SelectedCoinPriceEntity>
+    fun getAllData() : List<SelectedCoinPriceEntity>
 
     //insert
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -20,6 +20,5 @@ interface SelectedCoinPriceDAO {
     // 하나의 코인에 대해서 저장된 정보를 가져오는 친구
     // BTC 15 30 45 -> List<BTC> -> 현재가격 15 30 45 어떻게 변화하였는디 DB에저장된 값과 비교하는 용도
     @Query("SELECT * FROM selected_coin_price_table WHERE coinName = :coinName")
-    fun getOneCoinDate(coinName : String) : List<SelectedCoinPriceEntity>
-
+    fun getOneCoinData(coinName : String) : List<SelectedCoinPriceEntity>
 }
